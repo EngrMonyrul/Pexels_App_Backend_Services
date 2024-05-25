@@ -6,7 +6,7 @@ part of '../../pexels_services.dart';
 ///---------------------------------------
 Future<void> initPackages({required String baseUrl}) async {
   await GetStorage.init();
-  await _regDi(
+  await regDi(
           baseUrl: baseUrl,
           apiKey: "xsy4y1E3ngPAVZ70tqIfU91PImdpjPntmVnHc6SaMlvY9EWFstm72h1m")
       .then((_) {
@@ -14,5 +14,11 @@ Future<void> initPackages({required String baseUrl}) async {
       ..setBaseUrl(value: baseUrl)
       ..setApiKey(
           value: "xsy4y1E3ngPAVZ70tqIfU91PImdpjPntmVnHc6SaMlvY9EWFstm72h1m");
+    configureDi();
   });
 }
+
+List<dynamic> get initProviders => [
+      ChangeNotifierProvider<PhotosProvider>(
+          create: (context) => _PhotoProviderImpl()),
+    ];

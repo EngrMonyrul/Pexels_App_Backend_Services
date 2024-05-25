@@ -2,7 +2,7 @@ part of '../../pexels_services.dart';
 
 class CustomInterceptors implements InterceptorsWrapper {
   CustomInterceptors({required String apiKey}) : _apiKey = apiKey;
-  String _apiKey;
+  final String _apiKey;
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
@@ -17,13 +17,18 @@ class CustomInterceptors implements InterceptorsWrapper {
     if (_apiKey != "") {
       options.headers.addAll({
         'Authorization': _apiKey,
+      });
+    }
+
+    if (options.method != "GET") {
+      options.headers.addAll({
         'Content-Type': 'application/json',
       });
     }
 
     final data = options.data ?? {};
     log("Request-------->\n${options.baseUrl}${options.path}\nRequest Data------------>\n${jsonEncode(data)}");
-    return handler.next(options.copyWith(data: data));
+    return handler.next(options);
   }
 
   @override
@@ -31,6 +36,7 @@ class CustomInterceptors implements InterceptorsWrapper {
     // TODO: implement onResponse
     final data = response.data as Map;
     response.data = data;
-    log("Request--------->\n${response.realUri.path}\nResponse-------->\n${jsonEncode(data)}");
+    log("Request--------->\n${response.realUri.path}\nResponse-------->\n${jsonEncode(response.data)}");
+    return handler.next(response);
   }
 }

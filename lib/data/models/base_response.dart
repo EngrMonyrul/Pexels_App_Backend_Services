@@ -1,16 +1,13 @@
-import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:json_serializable/json_serializable.dart';
+
+part 'base_response.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true)
 class BaseResponse<T> {
   bool? success;
   T? payload;
-  int? statusCode;
-  String? statusMessage;
 
-  BaseResponse(
-      {this.success, this.payload, this.statusCode, this.statusMessage});
+  BaseResponse({this.success, this.payload});
 
   factory BaseResponse.fromJson(
           Map<String, dynamic> json, T Function(Object? json) fromJsonT) =>
@@ -28,7 +25,7 @@ class BaseResponse<T> {
   }
 
   bool get getResponseType {
-    if (payload != null && statusCode == 200) {
+    if (payload != null) {
       return true;
     } else {
       return false;

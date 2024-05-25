@@ -1,6 +1,6 @@
 part of '../../pexels_services.dart';
 
-Future<void> _regDi({required String baseUrl, required String apiKey}) async {
+Future<void> regDi({required String baseUrl, required String apiKey}) async {
   getIt.registerLazySingleton<LocalStorage>(() => _LocalStorageImpl());
   /*-------------------> registering dio <-------------------*/
   getIt.registerLazySingleton<ApiClient>(
